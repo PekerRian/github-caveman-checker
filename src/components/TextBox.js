@@ -160,7 +160,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
     }
   }, [currentHeadAttribute, setCustomText]);
 
-  const handleYesSpecialRequest = () => {
+  const handleYesSpecialRequest = useCallback(() => {
     setCustomText(`
       <div class="special-request-container">
         <input type="text" id="specialRequestInput" maxlength="200" placeholder="Enter your special request here..." />
@@ -197,7 +197,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
         };
       }
     }, 0);
-  };
+  }, [currentHeadAttribute, savePairToFile, selectedDinosaur, setCustomText]);
 
   const handleNoSpecialRequest = useCallback(() => {
     savePairToFile(currentHeadAttribute, selectedDinosaur, "none");
