@@ -1,18 +1,21 @@
 const express = require('express');
-const cors = require('cors'); // Import the cors package
+const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const app = express();
+require('dotenv').config(); // Load environment variables from .env file
 
 app.use(express.json());
-app.use(cors()); // Enable CORS for all routes
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || '*' // Set CORS origin from environment variables
+}));
 
 // Serve static files from the 'data' directory
 app.use('/data', express.static(path.join(__dirname, 'data')));
 
 app.get('/data/pairs.json', (req, res) => {
   const pairsPath = path.join(__dirname, 'data', 'pairs.json');
-  console.log('Attempting to read pairs.json from:', pairsPath); // Log the path being accessed
+  console.log('Attempting to read pairs.json from:', pairsPath);
   fs.readFile(pairsPath, 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading pairs.json:', err);
@@ -20,7 +23,7 @@ app.get('/data/pairs.json', (req, res) => {
       return;
     }
     console.log('Successfully accessed pairs.json');
-    console.log('Content of pairs.json:', data); // Log the content of pairs.json
+    console.log('Content of pairs.json:', data);
     res.json(JSON.parse(data));
   });
 });
@@ -29,7 +32,7 @@ app.get('/data/pairs.json', (req, res) => {
 app.post('/update-pairs', (req, res) => {
   try {
     const { headValue, dinosaur, customTextInput } = req.body;
-    const pairsPath = path.join(__dirname, 'data', 'pairs.json'); // Path to pairs.json in the data subfolder
+    const pairsPath = path.join(__dirname, 'data', 'pairs.json');
     console.log(`Received request to update pairs: headValue=${headValue}, dinosaur=${dinosaur}, customTextInput=${customTextInput}`);
 
     const pairs = JSON.parse(fs.readFileSync(pairsPath, 'utf8'));
@@ -40,7 +43,7 @@ app.post('/update-pairs', (req, res) => {
         return {
           ...pair,
           dinosaur,
-          customTextInput: customTextInput ?? 'none', // Use 'none' if customTextInput is not provided
+          customTextInput: customTextInput ?? 'none',
         };
       }
       return pair;
@@ -64,6 +67,7 @@ app.post('/log', (req, res) => {
 });
 
 // Start the server
-app.listen(3001, () => {
-  console.log('Server is running on port 3001');
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
