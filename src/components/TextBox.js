@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
 import { request } from 'graphql-request';
 import axios from 'axios';
@@ -33,7 +32,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
     fetchPairs();
   }, []);
 
-  const savePairToFile = (headValue, dinosaur, customTextInput = "") => {
+  const savePairToFile = useCallback((headValue, dinosaur, customTextInput = "") => {
     const newPair = { headValue, dinosaur, customTextInput };
     const updatedPairs = pairs.filter(pair => pair[0] !== headValue).concat([newPair]);
     setPairs(updatedPairs);
@@ -44,9 +43,9 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
         setCustomText(`Got it, ${headValue} will have ${dinosaur} as its aptosaur`);
       })
       .catch(err => console.error('Error writing to pairs file:', err));
-  };
+  }, [pairs, setCustomText]);
 
-  const fetchNfts = async () => {
+  const fetchNfts = useCallback(async () => {
     if (!connected || !account) {
       return;
     }
@@ -101,7 +100,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
     } catch (err) {
       console.error('Error fetching NFTs:', err);
     }
-  };
+  }, [connected, account, collectionId]);
 
   useEffect(() => {
     if (!connected) {
@@ -113,7 +112,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
     } else {
       fetchNfts();
     }
-  }, [connected, account]);
+  }, [connected, account, fetchNfts, setCustomText]);
 
   useEffect(() => {
     if (connected) {
@@ -159,7 +158,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
     if (currentHeadAttribute) {
       setCustomText(`I see you have the ${currentHeadAttribute} caveman available`);
     }
-  }, [currentHeadAttribute]);
+  }, [currentHeadAttribute, setCustomText]);
 
   const handleYesSpecialRequest = () => {
     setCustomText(`
@@ -293,7 +292,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
     if (noButton) {
       noButton.onclick = handleNoClick;
     }
-  }, [customText]);
+  }, [customText, handleYesClick, handleNoClick]);
 
   return (
     <>

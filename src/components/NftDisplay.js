@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { request } from 'graphql-request';
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
 import './NftDisplay.css';
@@ -13,7 +13,7 @@ const NftDisplay = ({ setCurrentHeadAttribute }) => {
   const { connected, account } = useWallet();
 
   const collectionId = "0x13049480ae8f39cb21c9a0ee8805f248ed8d12d4d70da29daf324e21a3ffe97b"; // Use the correct collection ID
-  const headValues = ["peker", "alladin", "wapal", "loyal hiker", "mo"]; // Define the allowed head values
+  const headValues = useMemo(() => ["peker", "alladin", "wapal", "loyal hiker", "mo"], []); // Define the allowed head values
 
   const fetchNfts = useCallback(async () => {
     if (!connected || !account) {
@@ -83,7 +83,7 @@ const NftDisplay = ({ setCurrentHeadAttribute }) => {
       return headAttribute && headValues.includes(headAttribute.value.toLowerCase());
     });
     setFilteredNfts(filteredNfts);
-  }, [nfts]);
+  }, [nfts, headValues]);
 
   useEffect(() => {
     if (connected && filteredNfts.length > 0) {
