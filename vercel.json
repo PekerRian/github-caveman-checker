@@ -1,21 +1,21 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "src/**/*",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build"
+    "version": 2,
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "build"
+        }
+      },
+      {
+        "src": "server.js",
+        "use": "@vercel/node"
       }
-    }
-  ],
-  "routes": [
-    { "src": "/data/(.*)", "dest": "/data/$1" },
-    { "src": "/update-pairs", "dest": "/api/update-pairs" },
-    { "src": "/log", "dest": "/api/log" }
-  ]
-}
+    ],
+    "routes": [
+      { "src": "/data/(.*)", "dest": "/data/$1" },
+      { "src": "/update-pairs", "dest": "/api/update-pairs" },
+      { "src": "/log", "dest": "/api/log" }
+    ]
+  }
