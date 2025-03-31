@@ -199,7 +199,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
     }, 0);
   };
 
-  const handleNoSpecialRequest = () => {
+  const handleNoSpecialRequest = useCallback(() => {
     savePairToFile(currentHeadAttribute, selectedDinosaur, "none");
     setCustomText(`Got it, ${currentHeadAttribute} will have ${selectedDinosaur} as its aptosaur with no special request`);
 
@@ -221,9 +221,9 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
         setCustomText(`Which aptosaur would you like for your 1/1?`);
       }, 2500);
     }, 2500);
-  };
+  }, [currentHeadAttribute, selectedDinosaur, setCustomText, savePairToFile]);
 
-  const handleYesClick = () => {
+  const handleYesClick = useCallback(() => {
     setCustomText(`Is there any special request for your 1/1 aptosaur art? <span class="clickable" id="yesSpecialRequest">YES</span> or <span class="clickable" id="noSpecialRequest">NO</span>?`);
 
     setTimeout(() => {
@@ -238,9 +238,9 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
         noSpecialRequest.onclick = handleNoSpecialRequest;
       }
     }, 0);
-  };
+  }, [handleYesSpecialRequest, handleNoSpecialRequest, setCustomText]);
 
-  const handleNoClick = () => {
+  const handleNoClick = useCallback(() => {
     setCustomText("Alrighty.");
 
     setTimeout(() => {
@@ -250,7 +250,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
         setCustomText(`Which aptosaur would you like for your 1/1?`);
       }, 2500);
     }, 2500);
-  };
+  }, [currentHeadAttribute, setCustomText]);
 
   const handleDinosaurClick = (dinosaur) => {
     if (currentHeadAttribute) {
