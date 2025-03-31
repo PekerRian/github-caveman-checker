@@ -6,6 +6,7 @@
     "@aptos-labs/wallet-adapter-ant-design": "^3.0.17",
     "@aptos-labs/wallet-adapter-core": "^4.19.0",
     "@aptos-labs/wallet-adapter-react": "^3.7.3",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@scure/bip39": "^1.4.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
