@@ -1,14 +1,14 @@
 /* Define the custom font using @font-face */
 @font-face {
   font-family: 'CustomFont';
-  src: url('./checker-csv/src/font/Daydream.ttf') format('truetype');
+  src: url('./font/Daydream.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 .App {
   text-align: center;
-  background-image: url('./checker-csv/src/imgassets/bg.png'); /* Set the background image */
+  background-image: url('./imgassets/bg.png'); /* Set the background image */
   background-size: cover; /* Ensure the image covers the full area */
   background-position: center; /* Center the background image */
   background-repeat: no-repeat;
@@ -68,7 +68,7 @@
 .rectangle {
   width: 982px; /* Set the width to match the image dimensions */
   height: 365px; /* Set the height to match the image dimensions */
-  background-image: url('./checker-csv/src/imgassets/dinobg.png'); /* Set the background image for the rectangle */
+  background-image: url('./imgassets/dinobg.png'); /* Set the background image for the rectangle */
   background-size: contain; /* Ensure the entire image is visible */
   background-position: center; /* Center the background image */
   background-repeat: no-repeat; /* Do not repeat the background image */
@@ -129,23 +129,23 @@
 
 /* Specific button backgrounds */
 .rectangle-button.button1 {
-  background-image: url('./checker-csv/src/imgassets/spino.gif');
+  background-image: url('./imgassets/spino.gif');
 }
 
 .rectangle-button.button2 {
-  background-image: url('./checker-csv/src/imgassets/stego.gif');
+  background-image: url('./imgassets/stego.gif');
 }
 
 .rectangle-button.button3 {
-  background-image: url('./checker-csv/src/imgassets/tricera.gif');
+  background-image: url('./imgassets/tricera.gif');
 }
 
 .rectangle-button.button4 {
-  background-image: url('./checker-csv/src/imgassets/trex.gif');
+  background-image: url('./imgassets/trex.gif');
 }
 
 .rectangle-button.button5 {
-  background-image: url('./checker-csv/src/imgassets/broncho.gif');
+  background-image: url('./imgassets/broncho.gif');
 }
 
 /* Foreground GIF */
@@ -155,7 +155,7 @@
   left: 0;
   width: 300px; /* Adjust width as needed */
   height: 400px; /* Adjust height as needed */
-  background-image: url('./checker-csv/src/imgassets/peker.gif'); /* Set the GIF as the background image */
+  background-image: url('./imgassets/peker.gif'); /* Set the GIF as the background image */
   background-size: cover; /* Ensure the image covers the full area */
   background-position: center; /* Center the background image */
   z-index: 4; /* Ensure it is above other elements */
@@ -221,7 +221,7 @@
 /* Media queries for mobile responsiveness */
 @media (max-width: 768px) {
   .App {
-    background-image: url('./checker-csv/src/imgassets/bg2.png'); /* Set the background image */
+    background-image: url('./imgassets/bg2.png'); /* Set the background image */
     padding: 10px;
 
   }
@@ -230,7 +230,7 @@
     width: 90%;
     height: auto;
     max-height: 50%; /* Decrease the height for mobile view */
-    background-image: url('./checker-csv/src/imgassets/dinobg_mobile.png'); /* Set the new background image for mobile view */
+    background-image: url('./imgassets/dinobg_mobile.png'); /* Set the new background image for mobile view */
     background-size: cover; /* Ensure the image stretches to fit */
     border: 7px solid black; /* Add a black border, 7px thick */
   }
