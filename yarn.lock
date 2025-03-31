@@ -1852,6 +1852,11 @@
   resolved "https://registry.npmjs.org/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz"
   integrity sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==
 
+"@microsoft/fetch-event-source@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/fetch-event-source/-/fetch-event-source-2.0.1.tgz#9ceecc94b49fbaa15666e38ae8587f64acce007d"
+  integrity sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==
+
 "@mizuwallet-sdk/aptos-wallet-adapter@^0.3.1":
   version "0.3.1"
   resolved "https://registry.npmjs.org/@mizuwallet-sdk/aptos-wallet-adapter/-/aptos-wallet-adapter-0.3.1.tgz"
@@ -1860,6 +1865,24 @@
     "@aptos-labs/ts-sdk" "^1.26.0"
     "@aptos-labs/wallet-standard" "0.1.0-ms.1"
     buffer "^6.0.3"
+
+"@mizuwallet-sdk/core@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@mizuwallet-sdk/core/-/core-1.4.0.tgz#a585f394569c00074d78052d93253f2c78a69d0c"
+  integrity sha512-03jKqKr+P4kCgcNQT2YNXmFBRVmeZ88vpEFKpQ9SaorCY4L9lF56kJS4Y+e/+A4Gb1bnqA7xuFmnEz13LjsZyg==
+  dependencies:
+    "@mizuwallet-sdk/protocol" "0.0.2"
+    buffer "^6.0.3"
+    jwt-decode "^4.0.0"
+
+"@mizuwallet-sdk/protocol@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@mizuwallet-sdk/protocol/-/protocol-0.0.2.tgz#1c139c2e5b442dc797c20bb743aeb2e1f5d00c07"
+  integrity sha512-AIrwaYKlmdG7lnipOlwW7sjlFJicm7v3fngQ3FEruAFc1Ydhg6gdMm4quEortWTziUxvSFo7V8JrRWF8C/FxDQ==
+  dependencies:
+    "@microsoft/fetch-event-source" "^2.0.1"
+    tweetnacl "^1.0.3"
+    tweetnacl-util "^0.15.1"
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -10352,6 +10375,11 @@ tsutils@^3.21.0:
   integrity sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==
   dependencies:
     tslib "^1.8.1"
+
+tweetnacl-util@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/tweetnacl-util/-/tweetnacl-util-0.15.1.tgz#b80fcdb5c97bcc508be18c44a4be50f022eea00b"
+  integrity sha512-RKJBIj8lySrShN4w6i/BonWp2Z/uxwC3h4y7xsRrpP59ZboCd0GpEVsOnMDYLMmKBpYhb5TgHzZXy7wTfYFBRw==
 
 tweetnacl@1.0.3, tweetnacl@1.x.x, tweetnacl@^1.0.3:
   version "1.0.3"
