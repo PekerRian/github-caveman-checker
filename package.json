@@ -3,17 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@aptos-labs/wallet-adapter-ant-design": "^3.0.17",
-    "@aptos-labs/wallet-adapter-core": "^4.19.0",
-    "@aptos-labs/wallet-adapter-react": "^3.7.3",
+    "@aptos-labs/wallet-adapter-ant-design": "^4.0.9",
+    "@aptos-labs/wallet-adapter-core": "^5.2.0",
+    "@aptos-labs/wallet-adapter-react": "^5.0.0",
+    "@babel/plugin-transform-private-property-in-object": "^7.25.9",
     "@scure/bip39": "^1.4.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "aptos": "^1.21.0",
+    "aptos": "^1.13.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^3.0.1",
     "source-map-loader": "^5.0.0",
     "web-vitals": "^2.1.4"
   },
@@ -40,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
