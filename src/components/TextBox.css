@@ -14,7 +14,7 @@
   position: absolute;
   height: 155px; /* Retain the original height */
   width: 982px; /* Retain the original width */
-  background-image: url('E:/PEKER/APTOS/2025/APTOSAURS/checker-js/src/imgassets/speechbubble.png'); /* Set the background image */
+  background-image: url('../imgassets/speechbubble.png'); /* Set the background image */
   background-size: cover; /* Ensure the image covers the full area */
   background-position: center; /* Center the background image */
   background-repeat: no-repeat; /* Do not repeat the background image */
@@ -106,7 +106,7 @@
     transform: translateX(10%); /* Center horizontally */
     padding: 1vh 1vw; /* Adjust padding for mobile view */
     font-size: 10px;
-    background-image: url('E:/PEKER/APTOS/2025/APTOSAURS/checker-js/src/imgassets/speechbubble_mobile.png'); /* Set the new background image for mobile view */
+    background-image: url('../imgassets/speechbubble_mobile.png'); /* Set the new background image for mobile view */
     background-size: 100% 100%; /* Make the background image stretch to fit */
   }
 

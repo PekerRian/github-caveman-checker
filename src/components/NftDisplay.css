@@ -1,7 +1,7 @@
 /* Define the custom font using @font-face */
 @font-face {
   font-family: 'CustomFont';
-  src: url('E:/PEKER/APTOS/2025/APTOSAURS/checker-js/src/font/Daydream.ttf') format('truetype');
+  src: url('../font/Daydream.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
