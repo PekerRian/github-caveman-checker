@@ -18,7 +18,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
 
     const fetchPairs = async () => {
         try {
-            const response = await axios.get('/api/data/pairs.json');  // Updated URL
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/data/pairs.json`);  // Updated URL
             const pairsArray = response.data.map(pair => [pair.headValue, pair.dinosaur]);
             const pairsSet = new Set(pairsArray.map(pair => pair[0]));
             setPairs(pairsArray);
@@ -38,7 +38,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
         setPairs(updatedPairs);
         setHeadValuesSet(new Set(updatedPairs.map(pair => pair.headValue)));
 
-        axios.post('/api/update-pairs', { pairs: updatedPairs })  // Updated URL
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-pairs`, { pairs: updatedPairs })  // Updated URL
             .then(response => {
                 setCustomText(`Got it, ${headValue} will have ${dinosaur} as its aptosaur`);
             })
@@ -177,7 +177,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
                     setCustomText(`Got it, ${currentHeadAttribute} will have ${selectedDinosaur} as its aptosaur`);
 
                     // Call API to update pairs.json
-                    axios.post('/api/update-pairs', {
+                    axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-pairs`, {
                         headValue: currentHeadAttribute,
                         dinosaur: selectedDinosaur,
                         customTextInput: specialRequestInput
@@ -204,7 +204,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
         setCustomText(`Got it, ${currentHeadAttribute} will have ${selectedDinosaur} as its aptosaur with no special request`);
 
         // Call API to update pairs.json
-        axios.post('/api/update-pairs', {
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-pairs`, {
             headValue: currentHeadAttribute,
             dinosaur: selectedDinosaur,
             customTextInput: "none"
