@@ -18,7 +18,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
 
     const fetchPairs = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/data/pairs.json`);  // Updated URL
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/data/pairs.json`);  // Updated URL
             const pairsArray = response.data.map(pair => [pair.headValue, pair.dinosaur]);
             const pairsSet = new Set(pairsArray.map(pair => pair[0]));
             setPairs(pairsArray);
