@@ -160,6 +160,69 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
         }
     }, [currentHeadAttribute, setCustomText]);
 
+    const handleYesSpecialRequest = useCallback(() => {
+        setCustomText(`
+            <div class="special-request-container">
+                <input type="text" id="specialRequestInput" maxlength="200" placeholder="Enter your special request here..." />
+                <button id="submitSpecialRequest">Submit</button>
+            </div>
+        `);
+
+        setTimeout(() => {
+            const submitSpecialRequest = document.getElementById('submitSpecialRequest');
+            if (submitSpecialRequest) {
+                submitSpecialRequest.onclick = () => {
+                    const specialRequestInput = document.getElementById('specialRequestInput').value;
+                    savePairToFile(currentHeadAttribute, selectedDinosaur, specialRequestInput);
+                    setCustomText(`Got it, ${currentHeadAttribute} will have ${selectedDinosaur} as its aptosaur`);
+
+                    // Call API to update pairs.json
+                    axios.post('http://localhost:3001/update-pairs', {
+                        headValue: currentHeadAttribute,
+                        dinosaur: selectedDinosaur,
+                        customTextInput: specialRequestInput
+                    }).then(response => {
+                        console.log('Pairs updated successfully:', response.data);
+                    }).catch(error => {
+                        console.error('Error updating pairs:', error);
+                    });
+
+                    setTimeout(() => {
+                        setCustomText(`I see you have the ${currentHeadAttribute} caveman available`);
+
+                        setTimeout(() => {
+                            setCustomText(`Which aptosaur would you like for your 1/1?`);
+                        }, 2500);
+                    }, 2500);
+                };
+            }
+        }, 0);
+    }, [currentHeadAttribute, savePairToFile, selectedDinosaur, setCustomText]);
+
+    const handleNoSpecialRequest = useCallback(() => {
+        savePairToFile(currentHeadAttribute, selectedDinosaur, "none");
+        setCustomText(`Got it, ${currentHeadAttribute} will have ${selectedDinosaur} as its aptosaur with no special request`);
+
+        // Call API to update pairs.json
+        axios.post('http://localhost:3001/update-pairs', {
+            headValue: currentHeadAttribute,
+            dinosaur: selectedDinosaur,
+            customTextInput: "none"
+        }).then(response => {
+            console.log('Pairs updated successfully:', response.data);
+        }).catch(error => {
+            console.error('Error updating pairs:', error);
+        });
+
+        setTimeout(() => {
+            setCustomText(`I see you have the ${currentHeadAttribute} caveman available`);
+
+            setTimeout(() => {
+                setCustomText(`Which aptosaur would you like for your 1/1?`);
+            }, 2500);
+        }, 2500);
+    }, [currentHeadAttribute, savePairToFile, selectedDinosaur, setCustomText]);
+
     const handleYesClick = useCallback(() => {
         setCustomText(`Is there any special request for your 1/1 aptosaur art? <span class="clickable" id="yesSpecialRequest">YES</span> or <span class="clickable" id="noSpecialRequest">NO</span>?`);
 
@@ -175,7 +238,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
                 noSpecialRequest.onclick = handleNoSpecialRequest;
             }
         }, 0);
-    }, [setCustomText]);
+    }, [handleYesSpecialRequest, handleNoSpecialRequest, setCustomText]);
 
     const handleNoClick = useCallback(() => {
         setCustomText("Alrighty.");
@@ -229,69 +292,6 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
                 setCustomText("There are still a few caveman, give your luck a try, mint some at <a href='https://wapal.com'>wapal</a>");
             }, 7500);
         }
-    };
-
-    const handleYesSpecialRequest = () => {
-        setCustomText(`
-            <div class="special-request-container">
-                <input type="text" id="specialRequestInput" maxlength="200" placeholder="Enter your special request here..." />
-                <button id="submitSpecialRequest">Submit</button>
-            </div>
-        `);
-
-        setTimeout(() => {
-            const submitSpecialRequest = document.getElementById('submitSpecialRequest');
-            if (submitSpecialRequest) {
-                submitSpecialRequest.onclick = () => {
-                    const specialRequestInput = document.getElementById('specialRequestInput').value;
-                    savePairToFile(currentHeadAttribute, selectedDinosaur, specialRequestInput);
-                    setCustomText(`Got it, ${currentHeadAttribute} will have ${selectedDinosaur} as its aptosaur`);
-
-                    // Call API to update pairs.json
-                    axios.post('http://localhost:3001/update-pairs', {
-                        headValue: currentHeadAttribute,
-                        dinosaur: selectedDinosaur,
-                        customTextInput: specialRequestInput
-                    }).then(response => {
-                        console.log('Pairs updated successfully:', response.data);
-                    }).catch(error => {
-                        console.error('Error updating pairs:', error);
-                    });
-
-                    setTimeout(() => {
-                        setCustomText(`I see you have the ${currentHeadAttribute} caveman available`);
-
-                        setTimeout(() => {
-                            setCustomText(`Which aptosaur would you like for your 1/1?`);
-                        }, 2500);
-                    }, 2500);
-                };
-            }
-        }, 0);
-    };
-
-    const handleNoSpecialRequest = () => {
-        savePairToFile(currentHeadAttribute, selectedDinosaur, "none");
-        setCustomText(`Got it, ${currentHeadAttribute} will have ${selectedDinosaur} as its aptosaur with no special request`);
-
-        // Call API to update pairs.json
-        axios.post('http://localhost:3001/update-pairs', {
-            headValue: currentHeadAttribute,
-            dinosaur: selectedDinosaur,
-            customTextInput: "none"
-        }).then(response => {
-            console.log('Pairs updated successfully:', response.data);
-        }).catch(error => {
-            console.error('Error updating pairs:', error);
-        });
-
-        setTimeout(() => {
-            setCustomText(`I see you have the ${currentHeadAttribute} caveman available`);
-
-            setTimeout(() => {
-                setCustomText(`Which aptosaur would you like for your 1/1?`);
-            }, 2500);
-        }, 2500);
     };
 
     return (
