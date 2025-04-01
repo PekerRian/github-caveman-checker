@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
 import { request } from 'graphql-request';
 import axios from 'axios';
@@ -45,7 +45,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
             .catch(err => console.error('Error writing to pairs file:', err));
     };
 
-    const fetchNfts = async () => {
+    const fetchNfts = useCallback(async () => {
         if (!connected || !account) {
             return;
         }
@@ -100,7 +100,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
         } catch (err) {
             console.error('Error fetching NFTs:', err);
         }
-    };
+    }, [connected, account, collectionId]);
 
     useEffect(() => {
         if (!connected) {
@@ -171,7 +171,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
         if (noButton) {
             noButton.onclick = handleNoClick;
         }
-    }, [customText]);
+    }, [customText, handleYesClick, handleNoClick]);
 
     const handleYesClick = () => {
         setCustomText(`Is there any special request for your 1/1 aptosaur art? <span class="clickable" id="yesSpecialRequest">YES</span> or <span class="clickable" id="noSpecialRequest">NO</span>?`);
