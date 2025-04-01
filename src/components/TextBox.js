@@ -32,7 +32,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
         fetchPairs();
     }, []);
 
-    const savePairToFile = (headValue, dinosaur, customTextInput = "") => {
+    const savePairToFile = useCallback((headValue, dinosaur, customTextInput = "") => {
         const newPair = { headValue, dinosaur, customTextInput };
         const updatedPairs = pairs.filter(pair => pair[0] !== headValue).concat([newPair]);
         setPairs(updatedPairs);
@@ -43,7 +43,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
                 setCustomText(`Got it, ${headValue} will have ${dinosaur} as its aptosaur`);
             })
             .catch(err => console.error('Error writing to pairs file:', err));
-    };
+    }, [pairs, setCustomText]);
 
     const fetchNfts = useCallback(async () => {
         if (!connected || !account) {
