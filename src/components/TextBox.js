@@ -160,20 +160,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
         }
     }, [currentHeadAttribute, setCustomText]);
 
-    useEffect(() => {
-        const yesButton = document.getElementById('yesButton');
-        const noButton = document.getElementById('noButton');
-
-        if (yesButton) {
-            yesButton.onclick = handleYesClick;
-        }
-
-        if (noButton) {
-            noButton.onclick = handleNoClick;
-        }
-    }, [customText, handleYesClick, handleNoClick]);
-
-    const handleYesClick = () => {
+    const handleYesClick = useCallback(() => {
         setCustomText(`Is there any special request for your 1/1 aptosaur art? <span class="clickable" id="yesSpecialRequest">YES</span> or <span class="clickable" id="noSpecialRequest">NO</span>?`);
 
         setTimeout(() => {
@@ -188,9 +175,9 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
                 noSpecialRequest.onclick = handleNoSpecialRequest;
             }
         }, 0);
-    };
+    }, [setCustomText]);
 
-    const handleNoClick = () => {
+    const handleNoClick = useCallback(() => {
         setCustomText("Alrighty.");
 
         setTimeout(() => {
@@ -200,7 +187,20 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
                 setCustomText(`Which aptosaur would you like for your 1/1?`);
             }, 2500);
         }, 2500);
-    };
+    }, [currentHeadAttribute, setCustomText]);
+
+    useEffect(() => {
+        const yesButton = document.getElementById('yesButton');
+        const noButton = document.getElementById('noButton');
+
+        if (yesButton) {
+            yesButton.onclick = handleYesClick;
+        }
+
+        if (noButton) {
+            noButton.onclick = handleNoClick;
+        }
+    }, [customText, handleYesClick, handleNoClick]);
 
     const handleDinosaurClick = (dinosaur) => {
         if (currentHeadAttribute) {
