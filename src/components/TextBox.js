@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
+import { doc, getDoc, setDoc, query, where, getDocs, collection } from "firebase/firestore";
+import { db } from '../firebase/firebase-config';
 import { request } from 'graphql-request';
-import axios from 'axios';
 import './TextBox.css';
 
 const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinosaur, setSelectedDinosaur, currentHeadAttribute, setCurrentHeadAttribute }) => {
@@ -18,8 +19,9 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
 
     const fetchPairs = async () => {
         try {
-            const response = await axios.get(`https://backend-seven-pi-82.vercel.app/api/data/pairs.json`);  // Updated URL
-            const pairsArray = response.data.map(pair => [pair.headValue, pair.dinosaur]);
+            const pairsRef = collection(db, "pairs");
+            const pairsSnapshot = await getDocs(pairsRef);
+            const pairsArray = pairsSnapshot.docs.map(doc => [doc.data().headValue, doc.data().dinosaur]);
             const pairsSet = new Set(pairsArray.map(pair => pair[0]));
             setPairs(pairsArray);
             setHeadValuesSet(pairsSet);
@@ -32,17 +34,18 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
         fetchPairs();
     }, []);
 
-    const savePairToFile = useCallback((headValue, dinosaur, customTextInput = "") => {
+    const savePairToFile = useCallback(async (headValue, dinosaur, customTextInput = "") => {
         const newPair = { headValue, dinosaur, customTextInput };
         const updatedPairs = pairs.filter(pair => pair[0] !== headValue).concat([newPair]);
         setPairs(updatedPairs);
         setHeadValuesSet(new Set(updatedPairs.map(pair => pair.headValue)));
 
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-pairs`, { pairs: updatedPairs })  // Updated URL
-            .then(response => {
-                setCustomText(`Got it, ${headValue} will have ${dinosaur} as its aptosaur`);
-            })
-            .catch(err => console.error('Error writing to pairs file:', err));
+        try {
+            await setDoc(doc(db, "pairs", headValue), newPair);
+            setCustomText(`Got it, ${headValue} will have ${dinosaur} as its aptosaur`);
+        } catch (err) {
+            console.error('Error writing to pairs file:', err);
+        }
     }, [pairs, setCustomText]);
 
     const fetchNfts = useCallback(async () => {
@@ -176,17 +179,6 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
                     savePairToFile(currentHeadAttribute, selectedDinosaur, specialRequestInput);
                     setCustomText(`Got it, ${currentHeadAttribute} will have ${selectedDinosaur} as its aptosaur`);
 
-                    // Call API to update pairs.json
-                    axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-pairs`, {
-                        headValue: currentHeadAttribute,
-                        dinosaur: selectedDinosaur,
-                        customTextInput: specialRequestInput
-                    }).then(response => {
-                        console.log('Pairs updated successfully:', response.data);
-                    }).catch(error => {
-                        console.error('Error updating pairs:', error);
-                    });
-
                     setTimeout(() => {
                         setCustomText(`I see you have the ${currentHeadAttribute} caveman available`);
 
@@ -202,17 +194,6 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
     const handleNoSpecialRequest = useCallback(() => {
         savePairToFile(currentHeadAttribute, selectedDinosaur, "none");
         setCustomText(`Got it, ${currentHeadAttribute} will have ${selectedDinosaur} as its aptosaur with no special request`);
-
-        // Call API to update pairs.json
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-pairs`, {
-            headValue: currentHeadAttribute,
-            dinosaur: selectedDinosaur,
-            customTextInput: "none"
-        }).then(response => {
-            console.log('Pairs updated successfully:', response.data);
-        }).catch(error => {
-            console.error('Error updating pairs:', error);
-        });
 
         setTimeout(() => {
             setCustomText(`I see you have the ${currentHeadAttribute} caveman available`);
@@ -301,7 +282,7 @@ const TextBox = ({ walletConnectionRef, customText, setCustomText, selectedDinos
                     {customText.includes("Do you want to change it?") ? (
                         <>
                             {customText.split("Do you want to change it?")[0]}
-                            Do you want to select <strong>{selectedDinosaur}</strong> as the Aptosaur for <strong>{currentHeadAttribute}</strong>? <span className="clickable" id="yesButton">YES</span> or <span className="clickable" id="noButton">NO</span>?
+                            Do you want to select <strong>{selectedDinosaur}</strong> as the Aptosaur for <strong>{currentHeadAttribute}</strong>? <span class="clickable" id="yesButton">YES</span> or <span class="clickable" id="noButton">NO</span>?
                         </>
                     ) : (
                         <span dangerouslySetInnerHTML={{ __html: customText }} />
